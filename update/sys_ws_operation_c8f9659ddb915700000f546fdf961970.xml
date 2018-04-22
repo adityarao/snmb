@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_ws_operation">
+    <sys_ws_operation action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <consumes>application/json,application/xml,text/xml</consumes>
+        <consumes_customized>false</consumes_customized>
+        <default_operation_uri/>
+        <enforce_acl>cf9d01d3e73003009d6247e603f6a990</enforce_acl>
+        <http_method>POST</http_method>
+        <name>register</name>
+        <operation_script><![CDATA[(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) {
+	var macAddress = request.body.data.MAC.toString();
+	var gr = new GlideRecord("x_snc_k18mb_engine_parameters");
+	gr.addQuery("mac_address", macAddress);
+	gr.query();
+	if (gr.next()) {
+		response.setContentType("text/plain");
+		var writer = response.getStreamWriter();
+		writer.writeString(gr.sys_id + '\n');
+		writer.writeString(gr.frequency + '\n');
+		writer.writeString(gr.timezone + '\n');
+
+		return;
+	}
+	
+	var gr_sys_id; 
+	
+	gr = new GlideRecord("x_snc_k18mb_engine_parameters");
+	gr.initialize();
+	gr.mac_address = macAddress;
+	gr.frequency = 60000;
+	gr.timezone = 'America/Los_Angeles';
+	gr_sys_id = gr.insert();
+	
+	response.setContentType("text/plain");
+	var writer1 = response.getStreamWriter();
+	writer1.writeString(gr_sys_id + '\n');
+	writer1.writeString(60000 + '\n');
+	writer1.writeString('America/Los_Angeles' + '\n');	
+	
+	//response.setBody({'mac_address':macAddress});
+})(request, response);]]></operation_script>
+        <operation_uri>/api/x_snc_k18mb/registerupdatedevice/register</operation_uri>
+        <produces>application/json,application/xml,text/xml</produces>
+        <produces_customized>false</produces_customized>
+        <relative_path>/register</relative_path>
+        <request_example/>
+        <requires_acl_authorization>true</requires_acl_authorization>
+        <requires_authentication>true</requires_authentication>
+        <short_description/>
+        <sys_class_name>sys_ws_operation</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-04-05 06:39:42</sys_created_on>
+        <sys_id>c8f9659ddb915700000f546fdf961970</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>register</sys_name>
+        <sys_package display_value="K18MetricBaseDemoPod" source="x_snc_k18mb">81c8295ddb915700000f546fdf961970</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="K18MetricBaseDemoPod">81c8295ddb915700000f546fdf961970</sys_scope>
+        <sys_update_name>sys_ws_operation_c8f9659ddb915700000f546fdf961970</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-04-05 09:11:35</sys_updated_on>
+        <web_service_definition display_value="registerUpdateDevice">f389a19ddb915700000f546fdf96190a</web_service_definition>
+        <web_service_version/>
+    </sys_ws_operation>
+</record_update>

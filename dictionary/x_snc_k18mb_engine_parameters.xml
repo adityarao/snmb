@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Engine Parameters" max_length="40" name="x_snc_k18mb_engine_parameters" type="collection">
+        <element label="Description" max_length="512" name="description" type="string"/>
+        <element label="frequency" max_length="40" name="frequency" type="integer"/>
+        <element label="Location" max_length="200" name="location" type="string"/>
+        <element label="MAC Address" max_length="200" name="mac_address" type="string"/>
+        <element label="Timezone" max_length="200" name="timezone" type="string"/>
+    </element>
+</database>
